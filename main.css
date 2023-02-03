@@ -156,6 +156,32 @@ main > footer {
   place-content: center;
 }
 
+.info {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--color-bg);
+  display: grid;
+  place-content: center;
+  padding: 1rem;
+}
+
+.info > p,
+.info > h2 {
+  max-width: 30rem;
+}
+
+.info > * + * {
+  margin-top: 3rem;
+}
+
+.info > h2,
+.info > p:last-child {
+  text-align: center;
+}
+
 a,
 a:visited,
 a:active {
@@ -167,6 +193,10 @@ a:active {
 
 a:hover {
   text-decoration: underline;
+}
+
+.hidden {
+  display: none;
 }
 
 @media (max-width: 960px) {

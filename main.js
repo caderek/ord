@@ -11,6 +11,9 @@ const $load = document.getElementById("load");
 const $clear = document.getElementById("clear");
 const $mime = document.getElementById("mime");
 const $download = document.getElementById("download");
+const $info = document.getElementById("info");
+const $showInfo = document.getElementById("show-info");
+const $hideInfo = document.getElementById("hide-info");
 
 function hexToTypedArr(hexString) {
   const arr = new Uint8Array(hexString.length / 2);
@@ -192,4 +195,17 @@ $load?.addEventListener("click", async (e) => {
 
 $clear?.addEventListener("click", () => {
   $tx.value = "";
+});
+
+$showInfo?.addEventListener("click", (e) => {
+  e.preventDefault();
+
+  $info?.classList.remove("hidden");
+  window.scrollTo({ top: 0, behavior: "smooth" });
+});
+
+$hideInfo?.addEventListener("click", (e) => {
+  e.preventDefault();
+
+  $info?.classList.add("hidden");
 });
