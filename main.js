@@ -143,14 +143,18 @@ function createStandaloneLink(url, name, ext) {
 }
 
 function extractTxId(str) {
-  const txRegex = /^[0-9a-f]{64}[0-9a-z]{2}$/;
+  const txRegex = /^[0-9a-f]{64}[0-9a-z]{0,2}$/;
 
   try {
     const url = new URL(str);
 
+    console.log(url);
+
     const txId = url.pathname
       .split("/")
       .filter((chunk) => txRegex.test(chunk))[0];
+
+    console.log({ txId });
 
     return txId ? txId.slice(0, 64) : null;
   } catch (e) {
