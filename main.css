@@ -206,12 +206,12 @@ a:hover {
   main > article > audio,
   main > article > p {
     max-height: calc(60vh - 10rem);
-    max-width: calc(100vw - 4rem);
+    max-width: calc(100vw);
   }
 
   pre {
     overflow: auto;
     height: calc(60vh - 10rem);
-    width: calc(100vw - 4rem);
+    width: calc(100vw);
   }
 }
