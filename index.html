@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="main.css" />
+  </head>
+  <body>
+    <header>
+      <h1>BTC Inscription Viewer</h1>
+    </header>
+    <section class="inputs">
+      <textarea
+        name="tx"
+        id="tx"
+        placeholder="Paste transaction ID, mempool transaction link, or full transaction as hex..."
+      ></textarea>
+      <fieldset>
+        <button id="clear">CLEAR</button>
+        <button id="load" class="primary">LOAD</button>
+      </fieldset>
+    </section>
+    <main>
+      <header><p id="mime"></p></header>
+      <article id="preview"></article>
+      <footer><p id="download"></p></footer>
+    </main>
+    <footer><p></p></footer>
+    <script type="module" src="main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,168 @@
+:root {
+  --color-text: #222;
+  --color-bg: #eeffee;
+  --color-bg-dim: #d6e6d6;
+  --color-bg-dim2: #c5d3c5;
+  --color-btn: rgb(180, 167, 170);
+  --color-btn-hover: rgb(201, 188, 190);
+  --color-btn-text: #222;
+  --color-btn-primary: #52734d;
+  --color-btn--primary-hover: #59974f;
+  --color-btn-primary-text: white;
+}
+
+textarea {
+  width: 30vw;
+  height: 70vh;
+  padding: 1rem;
+  font-size: 1rem;
+  background-color: var(--color-bg);
+  outline: none;
+  border-radius: 0.2rem;
+}
+
+textarea:focus {
+  border: none;
+  outline: solid 2px var(--color-btn--primary-hover);
+}
+
+button {
+  margin: 1rem 0 0 0;
+  padding: 0.5rem;
+  background-color: var(--color-btn);
+  color: var(--color-btn-text);
+  font-size: 1.4rem;
+  border-radius: 0.2rem;
+}
+
+button:hover {
+  background-color: var(--color-btn-hover);
+  cursor: pointer;
+}
+
+button.primary {
+  background-color: var(--color-btn-primary);
+  color: var(--color-btn-primary-text);
+}
+
+button.primary:hover {
+  background-color: var(--color-btn--primary-hover);
+}
+
+fieldset {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 1rem;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+}
+
+body,
+html {
+  height: 100%;
+}
+
+body {
+  display: grid;
+  grid-template-areas:
+    "a c c"
+    "b c c"
+    "b c c"
+    "d c c";
+
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+
+body > header {
+  grid-area: a;
+  background-color: var(--color-bg-dim2);
+  width: 34vw;
+  height: 4rem;
+  display: grid;
+  place-content: center;
+}
+
+body .inputs {
+  grid-area: b;
+  background-color: var(--color-bg-dim);
+  width: 34vw;
+  height: calc(100vh - 8rem);
+  display: grid;
+  place-content: center;
+}
+
+body .inputs p {
+  text-align: center;
+  margin: 1rem;
+}
+
+main {
+  grid-area: c;
+  width: 66vw;
+}
+
+body > footer {
+  grid-area: d;
+  background-color: var(--color-bg-dim2);
+  width: 34vw;
+  height: 4rem;
+  display: grid;
+  place-content: center;
+}
+
+main > article {
+  display: grid;
+  place-content: center;
+  height: calc(100vh - 8rem);
+}
+
+main > article > img,
+main > article > pre,
+main > article > video,
+main > article > audio,
+main > article > p {
+  max-height: calc(100vh - 10rem);
+  max-width: calc(66vw - 2rem);
+}
+
+pre {
+  overflow: auto;
+  height: calc(100vh - 10rem);
+  width: calc(66vw - 2rem);
+}
+
+main > header {
+  /* background-color: yellow; */
+  height: 4rem;
+  padding: 1rem;
+  display: grid;
+  place-content: center;
+}
+
+main > footer {
+  /* background-color: pink; */
+  height: 4rem;
+  display: grid;
+  place-content: center;
+}
+
+a,
+a:visited,
+a:active {
+  color: var(--color-btn-primary);
+  text-decoration: none;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+a:hover {
+  text-decoration: underline;
+}
