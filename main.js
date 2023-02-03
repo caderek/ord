@@ -86,7 +86,7 @@ async function fetchTXData(txId) {
 }
 
 async function getOrdinal({ txId, txHex }) {
-  console.log({ txHex, txId });
+  // console.log({ txHex, txId });
 
   const tx = txId ? await fetchTXData(txId) : txHex;
 
