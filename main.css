@@ -191,13 +191,13 @@ a:hover {
   }
 
   body > main {
-    height: 70vh;
+    height: 60vh;
   }
 
   main > article {
     display: grid;
     place-content: center;
-    height: calc(70vh - 8rem);
+    height: calc(60vh - 8rem);
   }
 
   main > article > img,
@@ -205,13 +205,13 @@ a:hover {
   main > article > video,
   main > article > audio,
   main > article > p {
-    max-height: calc(70vh - 10rem);
+    max-height: calc(60vh - 10rem);
     max-width: calc(100vw - 4rem);
   }
 
   pre {
     overflow: auto;
-    height: calc(70vh - 10rem);
+    height: calc(60vh - 10rem);
     width: calc(100vw - 4rem);
   }
 }
