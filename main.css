@@ -1,13 +1,13 @@
 :root {
-  --color-text: #222;
-  --color-bg: #eeffee;
-  --color-bg-dim: #d6e6d6;
-  --color-bg-dim2: #c5d3c5;
-  --color-btn: rgb(180, 167, 170);
-  --color-btn-hover: rgb(201, 188, 190);
-  --color-btn-text: #222;
-  --color-btn-primary: #52734d;
-  --color-btn--primary-hover: #59974f;
+  --color-text: #1e2022;
+  --color-bg: #f0f5f9;
+  --color-bg-dim: #c9d6df;
+  --color-bg-dim2: #b6c3cc;
+  --color-btn: #52616b;
+  --color-btn-hover: #61727e;
+  --color-btn-text: white;
+  --color-btn-primary: #504b97;
+  --color-btn--primary-hover: #676497;
   --color-btn-primary-text: white;
 }
 
@@ -19,6 +19,10 @@ textarea {
   background-color: var(--color-bg);
   outline: none;
   border-radius: 0.2rem;
+}
+
+h1 {
+  font-size: 1.6rem;
 }
 
 textarea:focus {
