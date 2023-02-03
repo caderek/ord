@@ -11,6 +11,7 @@ const $load = document.getElementById("load");
 const $clear = document.getElementById("clear");
 const $mime = document.getElementById("mime");
 const $download = document.getElementById("download");
+const $open = document.getElementById("open");
 const $info = document.getElementById("info");
 const $showInfo = document.getElementById("show-info");
 const $hideInfo = document.getElementById("hide-info");
@@ -133,6 +134,14 @@ function createDownloadLink(url, name, ext) {
   return link;
 }
 
+function createStandaloneLink(url, name, ext) {
+  const link = document.createElement("a");
+  link.href = url;
+  link.target = "_blank";
+  link.innerText = "open";
+  return link;
+}
+
 function extractTxId(str) {
   const txRegex = /^[0-9a-f]{64}[0-9a-z]{2}$/;
 
@@ -150,7 +159,8 @@ function extractTxId(str) {
 }
 
 let $content = null;
-let $link = null;
+let $downloadLink = null;
+let $openLink = null;
 let oldUrl = null;
 
 $load?.addEventListener("click", async (e) => {
@@ -158,8 +168,12 @@ $load?.addEventListener("click", async (e) => {
     $preview?.removeChild($content);
   }
 
-  if ($link) {
-    $download?.removeChild($link);
+  if ($downloadLink) {
+    $download?.removeChild($downloadLink);
+  }
+
+  if ($openLink) {
+    $open?.removeChild($openLink);
   }
 
   if (oldUrl) {
@@ -184,12 +198,15 @@ $load?.addEventListener("click", async (e) => {
         ? val
         : new Date().toISOString().replace(/[TZ\-\:\.]/gi, "");
 
-    $link = createDownloadLink(url, name, ext ?? "bin");
+    $downloadLink = createDownloadLink(url, name, ext ?? "bin");
+    $openLink = createStandaloneLink(url, name, ext ?? "bin");
     oldUrl = url;
-    $download.appendChild($link);
+    $download.appendChild($downloadLink);
+    $open.appendChild($openLink);
   } else {
     oldUrl = null;
-    $link = null;
+    $downloadLink = null;
+    $openLink = null;
   }
 });
 

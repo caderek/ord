@@ -8,7 +8,7 @@
   --color-btn-hover: #61727e;
   --color-btn-text: white;
   --color-btn-primary: #504b97;
-  --color-btn--primary-hover: #676497;
+  --color-btn-primary-hover: #676497;
   --color-btn-primary-text: white;
 }
 
@@ -39,7 +39,7 @@ h1 > a:hover {
 
 textarea:focus {
   border: none;
-  outline: solid 2px var(--color-btn--primary-hover);
+  outline: solid 2px var(--color-btn-primary-hover);
 }
 
 button {
@@ -62,7 +62,7 @@ button.primary {
 }
 
 button.primary:hover {
-  background-color: var(--color-btn--primary-hover);
+  background-color: var(--color-btn-primary-hover);
 }
 
 fieldset {
@@ -166,6 +166,21 @@ main > footer {
   height: 4rem;
   display: grid;
   place-content: center;
+}
+main > footer > ul {
+  list-style: none;
+  font-size: 0;
+}
+
+main > footer > ul > li {
+  font-size: 1rem;
+  text-align: center;
+  display: inline-block;
+  padding: 0 1rem;
+}
+
+main > footer > ul > * + * {
+  border-left: solid 2px var(--color-btn-primary-hover);
 }
 
 .info {
