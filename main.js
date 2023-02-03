@@ -131,13 +131,16 @@ function createDownloadLink(url, name, ext) {
 }
 
 function extractTxId(str) {
-  const txRegex = /^\/tx\/[0-9a-f]{64}/;
+  const txRegex = /^[0-9a-f]{64}[0-9a-z]{2}$/;
 
   try {
     const url = new URL(str);
-    return url.host === "mempool.space" && txRegex.test(url.pathname)
-      ? url.pathname.split("/").at(-1)
-      : null;
+
+    const txId = url.pathname
+      .split("/")
+      .filter((chunk) => txRegex.test(chunk))[0];
+
+    return txId ? txId.slice(0, 64) : null;
   } catch (e) {
     return null;
   }

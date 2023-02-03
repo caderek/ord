@@ -69,11 +69,6 @@ html {
 
 body {
   display: grid;
-  grid-template-areas:
-    "a c c"
-    "b c c"
-    "b c c"
-    "d c c";
 
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
@@ -165,4 +160,55 @@ a:active {
 
 a:hover {
   text-decoration: underline;
+}
+
+@media (max-width: 960px) {
+  body {
+    grid-template-areas:
+      "a a a"
+      "b b b"
+      "c c c"
+      "d d d";
+  }
+
+  body > header,
+  body > .inputs,
+  body > main,
+  body > footer {
+    width: 100%;
+  }
+
+  body > .inputs {
+    height: 35vh;
+  }
+
+  textarea {
+    height: 20vh;
+    width: calc(100vw - 4rem);
+  }
+
+  body > main {
+    height: 70vh;
+  }
+
+  main > article {
+    display: grid;
+    place-content: center;
+    height: calc(70vh - 8rem);
+  }
+
+  main > article > img,
+  main > article > pre,
+  main > article > video,
+  main > article > audio,
+  main > article > p {
+    max-height: calc(70vh - 10rem);
+    max-width: calc(100vw - 4rem);
+  }
+
+  pre {
+    overflow: auto;
+    height: calc(70vh - 10rem);
+    width: calc(100vw - 4rem);
+  }
 }
