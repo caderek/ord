@@ -143,23 +143,28 @@ function createStandaloneLink(url, name, ext) {
 }
 
 function extractTxId(str) {
-  const txRegex = /^[0-9a-f]{64}[0-9a-z]{0,2}$/;
+  const txRegex = /^[0-9a-f]{64}/;
 
-  try {
-    const url = new URL(str);
+  if (str.length)
+    try {
+      const url = new URL(str);
 
-    console.log(url);
+      if (url.host === "") {
+        throw new Error();
+      }
 
-    const txId = url.pathname
-      .split("/")
-      .filter((chunk) => txRegex.test(chunk))[0];
+      const txId = url.pathname
+        .split("/")
+        .filter((chunk) => txRegex.test(chunk))[0];
 
-    console.log({ txId });
+      return txId ? txId.slice(0, 64) : null;
+    } catch (e) {
+      if (!/^[0-9a-f]+$/.test(str) && txRegex.test(str)) {
+        return str.slice(0, 64);
+      }
 
-    return txId ? txId.slice(0, 64) : null;
-  } catch (e) {
-    return null;
-  }
+      return null;
+    }
 }
 
 let $content = null;
