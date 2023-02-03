@@ -1,5 +1,6 @@
 :root {
   --color-text: #1e2022;
+  --color-text-header: #373475;
   --color-bg: #f0f5f9;
   --color-bg-dim: #c9d6df;
   --color-bg-dim2: #b6c3cc;
@@ -23,6 +24,17 @@ textarea {
 
 h1 {
   font-size: 1.6rem;
+}
+
+h1 > a,
+h1 > a:visited,
+h1 > a:active,
+h1 > a:hover {
+  color: var(--color-text-header);
+}
+
+h1 > a:hover {
+  text-decoration: none;
 }
 
 textarea:focus {
