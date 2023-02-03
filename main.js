@@ -54,7 +54,7 @@ async function createMedia(blob, mimeString, ext) {
     return { el: img, mime, url, ext };
   }
 
-  if (mimeString.includes("text")) {
+  if (mimeString.includes("text") || mimeString.includes("json")) {
     const text = await blob.text();
     const pre = document.createElement("pre");
     pre.innerText = text;
@@ -163,7 +163,7 @@ let $downloadLink = null;
 let $openLink = null;
 let oldUrl = null;
 
-$load?.addEventListener("click", async (e) => {
+async function load() {
   if ($content) {
     $preview?.removeChild($content);
   }
@@ -208,7 +208,9 @@ $load?.addEventListener("click", async (e) => {
     $downloadLink = null;
     $openLink = null;
   }
-});
+}
+
+$load?.addEventListener("click", load);
 
 $clear?.addEventListener("click", () => {
   $tx.value = "";
@@ -225,4 +227,11 @@ $hideInfo?.addEventListener("click", (e) => {
   e.preventDefault();
 
   $info?.classList.add("hidden");
+});
+
+document.addEventListener("keypress", (e) => {
+  if (e?.target?.id === "tx" && e.key === "Enter") {
+    load();
+    return;
+  }
 });
