@@ -1,4 +1,5 @@
 import mime from "https://cdn.skypack.dev/mime";
+import prettyBytes from "https://cdn.skypack.dev/pretty-bytes";
 import readOrdinal from "./readOrdinal.js";
 
 const preWitness = 188;
@@ -10,7 +11,7 @@ const $preview = document.getElementById("preview");
 const $tx = document.getElementById("tx");
 const $load = document.getElementById("load");
 const $clear = document.getElementById("clear");
-const $mime = document.getElementById("mime");
+const $details = document.getElementById("details");
 const $download = document.getElementById("download");
 const $open = document.getElementById("open");
 const $info = document.getElementById("info");
@@ -48,36 +49,37 @@ function formatMime(mimeStr) {
 async function createMedia(blob, mimeString, ext) {
   const mime = formatMime(mimeString);
   const url = URL.createObjectURL(blob);
+  const size = prettyBytes(blob.size);
 
   if (mimeString.includes("image")) {
     const img = new Image();
     img.src = url;
-    return { el: img, mime, url, ext };
+    return { el: img, mime, url, ext, size };
   }
 
   if (mimeString.includes("text") || mimeString.includes("json")) {
     const text = await blob.text();
     const pre = document.createElement("pre");
     pre.innerText = text;
-    return { el: pre, mime, url, ext };
+    return { el: pre, mime, url, ext, size };
   }
 
   if (mimeString.includes("audio")) {
     const audio = new Audio(url);
     audio.controls = true;
-    return { el: audio, mime, url, ext };
+    return { el: audio, mime, url, ext, size };
   }
 
   if (mimeString.includes("video")) {
     const video = document.createElement("video");
     video.src = url;
     video.controls = true;
-    return { el: video, mime, url, ext };
+    return { el: video, mime, url, ext, size };
   }
 
   const p = document.createElement("p");
   p.innerText = "Format not supported";
-  return { el: p, mime, url, ext };
+  return { el: p, mime, url, ext, size };
 }
 
 async function fetchTXData(txId) {
@@ -92,7 +94,7 @@ async function getOrdinal({ txId, txHex }) {
   if (tx === null) {
     const p = document.createElement("p");
     p.innerText = "Request failed.";
-    return { el: p, mime: null, url: null, ext: null };
+    return { el: p, mime: null, url: null, ext: null, size: null };
   }
 
   const ord = readOrdinal(tx);
@@ -100,10 +102,12 @@ async function getOrdinal({ txId, txHex }) {
   if (ord === null) {
     const p = document.createElement("p");
     p.innerText = "No data.";
-    return { el: p, mime: null, url: null, ext: null };
+    return { el: p, mime: null, url: null, ext: null, size: null };
   }
 
   const ext = mime.getExtension(ord.mime);
+
+  console.log();
 
   return createMedia(ord.data, ord.mime, ext);
 }
@@ -175,14 +179,14 @@ async function load() {
   const rawVal = $tx?.value?.trim();
   const val = extractTxId(rawVal) ?? rawVal;
   const type = val.length === 64 ? "txId" : "txHex";
-  const { el, mime, url, ext } = await getOrdinal({ [type]: val });
+  const { el, mime, url, ext, size } = await getOrdinal({ [type]: val });
 
   if (el) {
     $content = el;
     $preview?.appendChild($content);
   }
 
-  $mime.innerText = mime ?? "";
+  $details.innerText = mime ? [mime, size].join(" | ") : "";
 
   if (url) {
     const name =

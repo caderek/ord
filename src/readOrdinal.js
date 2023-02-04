@@ -27,7 +27,7 @@ function readOrdinal(txHex) {
     return null;
   }
 
-  const data = toBytes(txHex.slice(startIndex + ORDINAL_SIGNATURE.length));
+  const bytes = toBytes(txHex.slice(startIndex + ORDINAL_SIGNATURE.length));
 
   let pointer = 0;
   let reg = 0;
@@ -35,13 +35,13 @@ function readOrdinal(txHex) {
   const registers = [[], []];
 
   const readData = (len) => {
-    const chunk = data.slice(pointer, pointer + len);
+    const chunk = bytes.slice(pointer, pointer + len);
     registers[reg].push(chunk);
     pointer += len;
   };
 
-  while (pointer < data.length) {
-    const OPCODE = data[pointer];
+  while (pointer < bytes.length) {
+    const OPCODE = bytes[pointer];
 
     switch (OPCODE) {
       case OP_FALSE: {
@@ -57,7 +57,7 @@ function readOrdinal(txHex) {
 
       case OP_PUSHDATA1: {
         pointer++;
-        const len = data[pointer];
+        const len = bytes[pointer];
         pointer++;
         readData(len);
         break;
@@ -65,7 +65,7 @@ function readOrdinal(txHex) {
 
       case OP_PUSHDATA2: {
         pointer++;
-        const len = numLittleEndian(data.slice(pointer, pointer + 2));
+        const len = numLittleEndian(bytes.slice(pointer, pointer + 2));
         pointer += 2;
         readData(len);
         break;
@@ -73,14 +73,14 @@ function readOrdinal(txHex) {
 
       case OP_PUSHDATA4: {
         pointer++;
-        const len = numLittleEndian(data.slice(pointer, pointer + 4));
+        const len = numLittleEndian(bytes.slice(pointer, pointer + 4));
         pointer += 4;
         readData(len);
         break;
       }
 
       default: {
-        const len = data[pointer];
+        const len = bytes[pointer];
         pointer++;
         readData(len);
         break;
@@ -88,16 +88,15 @@ function readOrdinal(txHex) {
     }
   }
 
-  const rawData = Uint8Array.from(registers[1].flat());
   const mime = registers[0]
     .flat()
     .map((v) => String.fromCharCode(v))
     .join("");
 
-  return {
-    mime,
-    data: new Blob([rawData], { type: mime }),
-  };
+  const rawData = Uint8Array.from(registers[1].flat());
+  const data = new Blob([rawData], { type: mime });
+
+  return { mime, data };
 }
 
 export default readOrdinal;
