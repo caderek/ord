@@ -1,4 +1,5 @@
 import mime from "https://cdn.skypack.dev/mime";
+import readOrdinal from "./readOrdinal.js";
 
 const preWitness = 188;
 const preMime = preWitness + 220;
@@ -86,8 +87,6 @@ async function fetchTXData(txId) {
 }
 
 async function getOrdinal({ txId, txHex }) {
-  // console.log({ txHex, txId });
-
   const tx = txId ? await fetchTXData(txId) : txHex;
 
   if (tx === null) {
@@ -96,33 +95,17 @@ async function getOrdinal({ txId, txHex }) {
     return { el: p, mime: null, url: null, ext: null };
   }
 
-  const withoutHeader = tx.slice(preMime);
+  const ord = readOrdinal(tx);
 
-  const mimeEnd = withoutHeader.indexOf(mimeSeparator);
-  const contentStart = mimeEnd + mimeSeparator.length;
-  const contentEnd = withoutHeader.lastIndexOf(contentEndSeparator);
-
-  const mimeArea = withoutHeader.slice(0, mimeEnd);
-
-  const mimeStr = hexToText(mimeArea)
-    .replace(/./g, (char) => (char.charCodeAt(0) < 32 ? "" : char)) // remove control chars`
-    .replace(/\s+/g, ""); // remove whitespace
-
-  const ext = mime.getExtension(mimeStr);
-
-  if (ext === null) {
+  if (ord === null) {
     const p = document.createElement("p");
     p.innerText = "No data.";
     return { el: p, mime: null, url: null, ext: null };
   }
 
-  const contentArea = withoutHeader
-    .slice(contentStart, contentEnd)
-    .replaceAll("4d0802", "");
+  const ext = mime.getExtension(ord.mime);
 
-  const content = new Blob([hexToTypedArr(contentArea)], { type: mimeStr });
-
-  return createMedia(content, mimeStr, ext);
+  return createMedia(ord.data, ord.mime, ext);
 }
 
 function createDownloadLink(url, name, ext) {
