@@ -19,7 +19,7 @@ const $showInfo = document.getElementById("show-info");
 const $hideInfo = document.getElementById("hide-info");
 const $loading = document.getElementById("loading");
 
-let $content = null;
+let $content = document.getElementById("monkey");
 let $downloadLink = null;
 let $openLink = null;
 let oldUrl = null;
