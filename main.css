@@ -26,11 +26,16 @@ h1 {
   font-size: 1.6rem;
 }
 
+h1 img {
+  height: 3rem;
+}
+
 h1 > a,
 h1 > a:visited,
 h1 > a:active,
 h1 > a:hover {
   color: var(--color-text-header);
+  text-transform: none;
 }
 
 h1 > a:hover {
@@ -103,7 +108,8 @@ body > header {
   width: 34vw;
   height: 4rem;
   display: grid;
-  place-content: center;
+  place-content: center start;
+  padding-left: 2rem;
 }
 
 body .inputs {
