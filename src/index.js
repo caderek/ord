@@ -1,5 +1,5 @@
-import mime from "https://cdn.skypack.dev/mime";
-import prettyBytes from "https://cdn.skypack.dev/pretty-bytes";
+import mime from "mime";
+import prettyBytes from "pretty-bytes";
 import readOrdinal from "./readOrdinal.js";
 
 const preWitness = 188;
