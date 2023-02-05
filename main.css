@@ -162,7 +162,7 @@ pre {
   width: calc(66vw - 2rem);
 }
 
-img {
+article img {
   min-width: 150px;
 }
 
