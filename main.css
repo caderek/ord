@@ -162,6 +162,10 @@ pre {
   width: calc(66vw - 2rem);
 }
 
+img {
+  min-width: 150px;
+}
+
 main > header {
   height: 4rem;
   padding: 1rem;
