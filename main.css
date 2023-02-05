@@ -5,10 +5,10 @@
   --color-bg-dim: #c9d6df;
   --color-bg-dim2: #b6c3cc;
   --color-btn: #52616b;
-  --color-btn-hover: #61727e;
+  --color-btn-hover: #435b69;
   --color-btn-text: white;
   --color-btn-primary: #504b97;
-  --color-btn-primary-hover: #676497;
+  --color-btn-primary-hover: #3f3992;
   --color-btn-primary-text: white;
 }
 
@@ -123,6 +123,7 @@ body .inputs p {
 main {
   grid-area: c;
   width: 66vw;
+  position: relative;
 }
 
 body > footer {
@@ -181,6 +182,30 @@ main > footer > ul > li {
 
 main > footer > ul > * + * {
   border-left: solid 2px var(--color-btn-primary-hover);
+}
+
+.loading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: grid;
+  place-content: center;
+  gap: 1rem;
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .info {

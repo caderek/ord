@@ -17,6 +17,7 @@ const $open = document.getElementById("open");
 const $info = document.getElementById("info");
 const $showInfo = document.getElementById("show-info");
 const $hideInfo = document.getElementById("hide-info");
+const $loading = document.getElementById("loading");
 
 function hexToTypedArr(hexString) {
   const arr = new Uint8Array(hexString.length / 2);
@@ -160,6 +161,8 @@ let $openLink = null;
 let oldUrl = null;
 
 async function load() {
+  $details.innerText = "";
+
   if ($content) {
     $preview?.removeChild($content);
   }
@@ -176,17 +179,23 @@ async function load() {
     URL.revokeObjectURL(oldUrl);
   }
 
+  $loading?.classList.remove("hidden");
+
   const rawVal = $tx?.value?.trim();
   const val = extractTxId(rawVal) ?? rawVal;
   const type = val.length === 64 ? "txId" : "txHex";
   const { el, mime, url, ext, size } = await getOrdinal({ [type]: val });
+
+  $loading?.classList.add("hidden");
 
   if (el) {
     $content = el;
     $preview?.appendChild($content);
   }
 
-  $details.innerText = mime ? [mime, size].join(" | ") : "";
+  if (mime) {
+    $details.innerText = [mime, size].join(" | ");
+  }
 
   if (url) {
     const name =
