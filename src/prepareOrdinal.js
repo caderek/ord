@@ -3,7 +3,7 @@ import createMedia from "./createMedia.js";
 import readOrdinal from "./readOrdinal.js";
 import fetchTXData from "./fetchTXData.js";
 
-async function createOrdinalMedia({ txId, txHex }) {
+async function prepareOrdinal({ txId, txHex }) {
   const tx = txId ? await fetchTXData(txId) : txHex;
 
   if (tx === null) {
@@ -27,4 +27,4 @@ async function createOrdinalMedia({ txId, txHex }) {
   return createMedia(ord.data, ord.mime, ext);
 }
 
-export default createOrdinalMedia;
+export default prepareOrdinal;

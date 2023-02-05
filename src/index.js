@@ -1,6 +1,6 @@
 import { createDownloadLink, createStandaloneLink } from "./createLinks.js";
 import extractTxId from "./extractTxId.js";
-import createOrdinalMedia from "./createOrdinalMedia.js";
+import prepareOrdinal from "./prepareOrdinal.js";
 
 const preWitness = 188;
 const preMime = preWitness + 220;
@@ -48,7 +48,7 @@ async function load() {
   const rawVal = $tx?.value?.trim();
   const val = extractTxId(rawVal) ?? rawVal;
   const type = val.length === 64 ? "txId" : "txHex";
-  const { el, mime, url, ext, size } = await createOrdinalMedia({
+  const { el, mime, url, ext, size } = await prepareOrdinal({
     [type]: val,
   });
 
