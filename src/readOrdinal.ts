@@ -1,3 +1,5 @@
+import mimeLib from "mime";
+
 const ORDINAL_SIGNATURE = "63036f72640101"; // OP_IF + len + "ord" + 0101
 
 const OP_FALSE = 0x00;
@@ -93,10 +95,14 @@ function readOrdinal(txHex: string) {
     .map((v) => String.fromCharCode(v))
     .join("");
 
+  const ext =
+    mimeLib.getExtension(mime) ??
+    (mime.split("/").at(-1)?.split(";").at(0) || "bin");
+
   const rawData = Uint8Array.from(registers[1].flat());
   const data = new Blob([rawData], { type: mime });
 
-  return { mime, data };
+  return { mime, data, ext };
 }
 
 export default readOrdinal;

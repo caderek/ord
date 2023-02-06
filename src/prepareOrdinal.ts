@@ -1,4 +1,3 @@
-import mime from "mime";
 import createMedia from "./createMedia.js";
 import readOrdinal from "./readOrdinal.js";
 import fetchTXData from "./fetchTXData.js";
@@ -25,13 +24,7 @@ async function prepareOrdinal({ txId, txHex }: TxInput) {
     return { el: p, mime: null, url: null, ext: null, size: null };
   }
 
-  const ext =
-    mime.getExtension(ord.mime) ??
-    (ord.mime.split("/").at(-1)?.split(";").at(0) || "bin");
-
-  console.log();
-
-  return createMedia(ord.data, ord.mime, ext);
+  return createMedia(ord.data, ord.mime, ord.ext);
 }
 
 export default prepareOrdinal;
