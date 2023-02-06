@@ -2,7 +2,8 @@
   --color-text: #1e2022;
   --color-text-header: #373475;
   --color-bg: #f0f5f9;
-  --color-bg-pre: #dde8f0;
+  --color-bg-pre: #282a36;
+  --color-text-pre: #f0f5f9;
   --color-bg-dim: #c9d6df;
   --color-bg-dim2: #b6c3cc;
   --color-btn: #52616b;
@@ -162,7 +163,14 @@ pre {
   height: calc(100vh - 10rem);
   width: calc(66vw - 2rem);
   background-color: var(--color-bg-pre);
+  color: var(--color-text-pre);
   padding: 1rem;
+}
+
+iframe {
+  height: calc(100vh - 10rem);
+  width: calc(66vw - 2rem);
+  background-color: white;
 }
 
 article img {
@@ -264,6 +272,10 @@ a:hover {
   display: none;
 }
 
+.viewport {
+  /* padding: 0; */
+}
+
 @media (max-width: 960px) {
   body {
     grid-template-areas:
@@ -303,12 +315,14 @@ a:hover {
   main > article > pre,
   main > article > video,
   main > article > audio,
+  main > article > iframe,
   main > article > p {
     max-height: calc(60vh - 10rem);
     max-width: calc(100vw);
   }
 
-  pre {
+  pre,
+  iframe {
     overflow: auto;
     height: calc(60vh - 10rem);
     width: calc(100vw);

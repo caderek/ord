@@ -1,4 +1,5 @@
 import "./main.css";
+import "./prism.css";
 
 import { createDownloadLink, createStandaloneLink } from "./createLinks.js";
 import extractTxId from "./extractTxId.js";
@@ -15,9 +16,11 @@ const $info = document.getElementById("info") as HTMLDivElement;
 const $showInfo = document.getElementById("show-info") as HTMLAnchorElement;
 const $hideInfo = document.getElementById("hide-info") as HTMLAnchorElement;
 const $loading = document.getElementById("loading") as HTMLDivElement;
+const $links = document.getElementById("links") as HTMLUListElement;
 
 let $content = document.getElementById("monkey");
 let $downloadLink: null | HTMLAnchorElement = null;
+let $toggle: null | HTMLLIElement = null;
 let $openLink: null | HTMLAnchorElement = null;
 let oldUrl: null | string = null;
 
@@ -29,15 +32,19 @@ async function load() {
   $details!.innerText = "";
 
   if ($content) {
-    $preview?.removeChild($content);
+    $preview.removeChild($content);
   }
 
   if ($downloadLink) {
-    $download?.removeChild($downloadLink);
+    $download.removeChild($downloadLink);
   }
 
   if ($openLink) {
-    $open?.removeChild($openLink);
+    $open.removeChild($openLink);
+  }
+
+  if ($toggle) {
+    $links.removeChild($toggle);
   }
 
   if (oldUrl) {
@@ -49,7 +56,7 @@ async function load() {
   const rawVal = $tx!.value?.trim();
   const val = extractTxId(rawVal) ?? rawVal;
   const type = val.length === 64 ? "txId" : "txHex";
-  const { el, mime, url, ext, size } = await prepareOrdinal({
+  const { el, mime, url, ext, size, toggle } = await prepareOrdinal({
     [type]: val,
   });
 
@@ -58,6 +65,11 @@ async function load() {
   if (el) {
     $content = el;
     $preview?.appendChild($content);
+  }
+
+  if (toggle) {
+    $links.appendChild(toggle);
+    $toggle = toggle;
   }
 
   if (mime) {

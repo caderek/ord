@@ -1,4 +1,4 @@
-import createMedia from "./createMedia.js";
+import createMedia, { Media } from "./createMedia.js";
 import readOrdinal from "./readOrdinal.js";
 import fetchTXData from "./fetchTXData.js";
 
