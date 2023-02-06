@@ -1,4 +1,4 @@
-function createDownloadLink(url, name, ext) {
+function createDownloadLink(url: string, name: string, ext: string) {
   const link = document.createElement("a");
   link.href = url;
   link.download = `${name}.${ext}`;
@@ -7,7 +7,7 @@ function createDownloadLink(url, name, ext) {
   return link;
 }
 
-function createStandaloneLink(url, name, ext) {
+function createStandaloneLink(url: string) {
   const link = document.createElement("a");
   link.href = url;
   link.target = "_blank";

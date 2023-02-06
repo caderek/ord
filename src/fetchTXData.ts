@@ -1,4 +1,4 @@
-async function fetchFromMempool(txId) {
+async function fetchFromMempool(txId: string) {
   try {
     const res = await fetch(`https://mempool.space/api/tx/${txId}/hex`);
 
@@ -12,7 +12,7 @@ async function fetchFromMempool(txId) {
   }
 }
 
-async function fetchFromBlockchair(txId) {
+async function fetchFromBlockchair(txId: string) {
   try {
     const res = await fetch(
       `https://api.blockchair.com/bitcoin/raw/transaction/${txId}`
@@ -31,7 +31,7 @@ async function fetchFromBlockchair(txId) {
 
 const requests = [fetchFromMempool, fetchFromBlockchair];
 
-async function fetchTXData(txId) {
+async function fetchTXData(txId: string) {
   for (const fetchTx of requests) {
     const tx = await fetchTx(txId);
 

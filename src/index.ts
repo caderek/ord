@@ -1,31 +1,32 @@
+import "./main.css";
+
 import { createDownloadLink, createStandaloneLink } from "./createLinks.js";
 import extractTxId from "./extractTxId.js";
 import prepareOrdinal from "./prepareOrdinal.js";
 
-const preWitness = 188;
-const preMime = preWitness + 220;
-const mimeSeparator = "004d0802";
-const contentEndSeparator = "6821";
-
-const $preview = document.getElementById("preview");
-const $tx = document.getElementById("tx");
-const $load = document.getElementById("load");
-const $clear = document.getElementById("clear");
-const $details = document.getElementById("details");
-const $download = document.getElementById("download");
-const $open = document.getElementById("open");
-const $info = document.getElementById("info");
-const $showInfo = document.getElementById("show-info");
-const $hideInfo = document.getElementById("hide-info");
-const $loading = document.getElementById("loading");
+const $preview = document.getElementById("preview") as HTMLDivElement;
+const $tx = document.getElementById("tx") as HTMLTextAreaElement;
+const $load = document.getElementById("load") as HTMLButtonElement;
+const $clear = document.getElementById("clear") as HTMLButtonElement;
+const $details = document.getElementById("details") as HTMLParagraphElement;
+const $download = document.getElementById("download") as HTMLAnchorElement;
+const $open = document.getElementById("open") as HTMLAnchorElement;
+const $info = document.getElementById("info") as HTMLDivElement;
+const $showInfo = document.getElementById("show-info") as HTMLAnchorElement;
+const $hideInfo = document.getElementById("hide-info") as HTMLAnchorElement;
+const $loading = document.getElementById("loading") as HTMLDivElement;
 
 let $content = document.getElementById("monkey");
-let $downloadLink = null;
-let $openLink = null;
-let oldUrl = null;
+let $downloadLink: null | HTMLAnchorElement = null;
+let $openLink: null | HTMLAnchorElement = null;
+let oldUrl: null | string = null;
+
+if (location.hash) {
+  console.log(location.hash);
+}
 
 async function load() {
-  $details.innerText = "";
+  $details!.innerText = "";
 
   if ($content) {
     $preview?.removeChild($content);
@@ -45,7 +46,7 @@ async function load() {
 
   $loading?.classList.remove("hidden");
 
-  const rawVal = $tx?.value?.trim();
+  const rawVal = $tx!.value?.trim();
   const val = extractTxId(rawVal) ?? rawVal;
   const type = val.length === 64 ? "txId" : "txHex";
   const { el, mime, url, ext, size } = await prepareOrdinal({
@@ -70,7 +71,7 @@ async function load() {
         : new Date().toISOString().replace(/[TZ\-\:\.]/gi, "");
 
     $downloadLink = createDownloadLink(url, name, ext ?? "bin");
-    $openLink = createStandaloneLink(url, name, ext ?? "bin");
+    $openLink = createStandaloneLink(url);
     oldUrl = url;
     $download.appendChild($downloadLink);
     $open.appendChild($openLink);
@@ -103,7 +104,8 @@ $hideInfo?.addEventListener("click", (e) => {
 });
 
 document.addEventListener("keypress", (e) => {
-  if (e?.target?.id === "tx" && e.key === "Enter") {
+  // @ts-ignore
+  if (e.target && e.target.id === "tx" && e.key === "Enter") {
     load();
     return;
   }

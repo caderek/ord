@@ -3,7 +3,12 @@ import createMedia from "./createMedia.js";
 import readOrdinal from "./readOrdinal.js";
 import fetchTXData from "./fetchTXData.js";
 
-async function prepareOrdinal({ txId, txHex }) {
+type TxInput = {
+  txId?: string;
+  txHex?: string;
+};
+
+async function prepareOrdinal({ txId, txHex }: TxInput) {
   const tx = txId ? await fetchTXData(txId) : txHex;
 
   if (tx === null) {
@@ -20,7 +25,9 @@ async function prepareOrdinal({ txId, txHex }) {
     return { el: p, mime: null, url: null, ext: null, size: null };
   }
 
-  const ext = mime.getExtension(ord.mime);
+  const ext =
+    mime.getExtension(ord.mime) ??
+    (ord.mime.split("/").at(-1)?.split(";").at(0) || "bin");
 
   console.log();
 

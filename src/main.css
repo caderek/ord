@@ -2,6 +2,7 @@
   --color-text: #1e2022;
   --color-text-header: #373475;
   --color-bg: #f0f5f9;
+  --color-bg-pre: #dde8f0;
   --color-bg-dim: #c9d6df;
   --color-bg-dim2: #b6c3cc;
   --color-btn: #52616b;
@@ -160,6 +161,8 @@ pre {
   overflow: auto;
   height: calc(100vh - 10rem);
   width: calc(66vw - 2rem);
+  background-color: var(--color-bg-pre);
+  padding: 1rem;
 }
 
 article img {

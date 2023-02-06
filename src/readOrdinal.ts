@@ -6,7 +6,7 @@ const OP_PUSHDATA2 = 0x4d;
 const OP_PUSHDATA4 = 0x4e;
 const OP_ENDIF = 0x68;
 
-function toBytes(hex) {
+function toBytes(hex: string): number[] {
   const bytes = new Array(hex.length / 2);
 
   for (let i = 0, j = 0; i < hex.length; i += 2, j++) {
@@ -16,11 +16,11 @@ function toBytes(hex) {
   return bytes;
 }
 
-function numLittleEndian(bytes) {
+function numLittleEndian(bytes: number[]) {
   return bytes.reduce((sum, x, i) => sum + x * 256 ** i);
 }
 
-function readOrdinal(txHex) {
+function readOrdinal(txHex: string) {
   const startIndex = txHex.indexOf(ORDINAL_SIGNATURE);
 
   if (startIndex === -1) {
@@ -30,11 +30,11 @@ function readOrdinal(txHex) {
   const bytes = toBytes(txHex.slice(startIndex + ORDINAL_SIGNATURE.length));
 
   let pointer = 0;
-  let reg = 0;
+  let reg: 0 | 1 = 0;
 
-  const registers = [[], []];
+  const registers: [number[][], number[][]] = [[], []];
 
-  const readData = (len) => {
+  const readData = (len: number) => {
     const chunk = bytes.slice(pointer, pointer + len);
     registers[reg].push(chunk);
     pointer += len;

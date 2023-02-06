@@ -1,6 +1,6 @@
 import prettyBytes from "pretty-bytes";
 
-function formatMime(mimeStr) {
+function formatMime(mimeStr: string) {
   if (typeof mimeStr !== "string") {
     return null;
   }
@@ -8,7 +8,7 @@ function formatMime(mimeStr) {
   return mimeStr.split(";")[0].split("/").join(" | ").toUpperCase();
 }
 
-async function createMedia(blob, mimeString, ext) {
+async function createMedia(blob: Blob, mimeString: string, ext: string) {
   const mime = formatMime(mimeString);
   const url = URL.createObjectURL(blob);
   const size = prettyBytes(blob.size);
