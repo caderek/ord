@@ -1,4 +1,10 @@
 import prettyBytes from "pretty-bytes";
+// @ts-ignore
+import prettier from "prettier/esm/standalone";
+// @ts-ignore
+import htmlParser from "prettier/esm/parser-html";
+// @ts-ignore
+import jsParser from "prettier/esm/parser-babel";
 import Prism from "prismjs";
 Prism.manual = true;
 
@@ -12,7 +18,7 @@ type Media = {
   url: string | null;
   ext: string | null;
   size: string | null;
-  toggle?: HTMLLIElement;
+  actions?: HTMLLIElement[];
 };
 
 async function createMedia(
@@ -44,30 +50,56 @@ async function createMedia(
     pre.innerHTML = Prism.highlight(text, Prism.languages.html, "html");
 
     const toggle = document.createElement("li");
-    const link = document.createElement("a");
+    const toggleLink = document.createElement("a");
 
-    const runText = "RUN";
+    const format = document.createElement("li");
+    const formatLink = document.createElement("a");
 
-    link.href = "#";
-    link.innerText = runText;
+    const runText = "run";
+    const formatText = "format code";
 
-    toggle.appendChild(link);
+    toggleLink.href = "#";
+    toggleLink.innerText = runText;
+    formatLink.href = "#";
+    formatLink.innerText = formatText;
+
+    toggle.appendChild(toggleLink);
+    format.appendChild(formatLink);
 
     box.classList.add("viewport");
 
     box.appendChild(pre);
 
     let isCode = true;
+    let isFormatted = false;
 
-    link.addEventListener("click", (e) => {
+    toggleLink.addEventListener("click", (e) => {
       e.preventDefault();
       box.removeChild(isCode ? pre : iframe);
       box.appendChild(isCode ? iframe : pre);
-      link.innerText = isCode ? "show code" : runText;
+      toggleLink.innerText = isCode ? "show code" : runText;
       isCode = !isCode;
     });
 
-    return { el: box, mime, url, ext, size, toggle };
+    formatLink.addEventListener("click", async (e) => {
+      e.preventDefault();
+
+      if (isFormatted) {
+        pre.innerHTML = Prism.highlight(text, Prism.languages.html, "html");
+      } else {
+        const nice = prettier.format(text, {
+          parser: "html",
+          plugins: [htmlParser, jsParser],
+        });
+
+        pre.innerHTML = Prism.highlight(nice, Prism.languages.html, "html");
+      }
+
+      formatLink.innerText = isFormatted ? formatText : "show original";
+      isFormatted = !isFormatted;
+    });
+
+    return { el: box, mime, url, ext, size, actions: [format, toggle] };
   }
 
   if (mimeString.includes("text") || mimeString.includes("json")) {

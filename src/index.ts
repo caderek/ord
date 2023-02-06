@@ -20,7 +20,7 @@ const $links = document.getElementById("links") as HTMLUListElement;
 
 let $content = document.getElementById("monkey");
 let $downloadLink: null | HTMLAnchorElement = null;
-let $toggle: null | HTMLLIElement = null;
+let $actions: null | HTMLLIElement[] = null;
 let $openLink: null | HTMLAnchorElement = null;
 let oldUrl: null | string = null;
 
@@ -37,18 +37,22 @@ async function load() {
 
   if ($downloadLink) {
     $download.removeChild($downloadLink);
+    $downloadLink = null;
   }
 
   if ($openLink) {
     $open.removeChild($openLink);
+    $openLink = null;
   }
 
-  if ($toggle) {
-    $links.removeChild($toggle);
+  if ($actions) {
+    $actions.forEach((action) => $links.removeChild(action));
+    $actions = null;
   }
 
   if (oldUrl) {
     URL.revokeObjectURL(oldUrl);
+    oldUrl = null;
   }
 
   $loading?.classList.remove("hidden");
@@ -56,7 +60,7 @@ async function load() {
   const rawVal = $tx!.value?.trim();
   const val = extractTxId(rawVal) ?? rawVal;
   const type = val.length === 64 ? "txId" : "txHex";
-  const { el, mime, url, ext, size, toggle } = await prepareOrdinal({
+  const { el, mime, url, ext, size, actions } = await prepareOrdinal({
     [type]: val,
   });
 
@@ -67,9 +71,9 @@ async function load() {
     $preview?.appendChild($content);
   }
 
-  if (toggle) {
-    $links.appendChild(toggle);
-    $toggle = toggle;
+  if (actions) {
+    actions.forEach((action) => $links.appendChild(action));
+    $actions = actions;
   }
 
   if (mime) {
@@ -87,10 +91,6 @@ async function load() {
     oldUrl = url;
     $download.appendChild($downloadLink);
     $open.appendChild($openLink);
-  } else {
-    oldUrl = null;
-    $downloadLink = null;
-    $openLink = null;
   }
 }
 
