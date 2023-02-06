@@ -95,5 +95,4 @@ async function createMedia(
   return { el: p, mime, url, ext, size };
 }
 
-export type { Media };
 export default createMedia;
