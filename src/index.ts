@@ -33,6 +33,7 @@ async function load() {
 
   if ($content) {
     $preview.removeChild($content);
+    $content = null;
   }
 
   if ($downloadLink) {
@@ -68,7 +69,7 @@ async function load() {
 
   if (el) {
     $content = el;
-    $preview?.appendChild($content);
+    $preview.appendChild($content);
   }
 
   if (actions) {
@@ -96,23 +97,23 @@ async function load() {
 
 /* Register handlers */
 
-$load?.addEventListener("click", load);
+$load.addEventListener("click", load);
 
-$clear?.addEventListener("click", () => {
+$clear.addEventListener("click", () => {
   $tx.value = "";
 });
 
-$showInfo?.addEventListener("click", (e) => {
+$showInfo.addEventListener("click", (e) => {
   e.preventDefault();
 
-  $info?.classList.remove("hidden");
+  $info.classList.remove("hidden");
   window.scrollTo({ top: 0, behavior: "smooth" });
 });
 
-$hideInfo?.addEventListener("click", (e) => {
+$hideInfo.addEventListener("click", (e) => {
   e.preventDefault();
 
-  $info?.classList.add("hidden");
+  $info.classList.add("hidden");
 });
 
 document.addEventListener("keypress", (e) => {
