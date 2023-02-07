@@ -28,7 +28,7 @@ if (location.hash) {
   console.log(location.hash);
 }
 
-async function load() {
+const load = (getValue: () => string) => async () => {
   $details!.innerText = "";
 
   if ($content) {
@@ -58,7 +58,7 @@ async function load() {
 
   $loading?.classList.remove("hidden");
 
-  const rawVal = $tx!.value?.trim();
+  const rawVal = getValue();
   const val = extractTxId(rawVal) ?? rawVal;
   const type = val.length === 64 ? "txId" : "txHex";
   const { el, mime, url, ext, size, actions } = await prepareOrdinal({
@@ -93,11 +93,20 @@ async function load() {
     $download.appendChild($downloadLink);
     $open.appendChild($openLink);
   }
+};
+
+const loadFromForm = load(() => $tx!.value?.trim());
+const loadFromHash = load(() => location.hash.slice(1));
+
+/* Fetch txId from url hash */
+
+if (location.hash.length >= 65) {
+  loadFromHash();
 }
 
 /* Register handlers */
 
-$load.addEventListener("click", load);
+$load.addEventListener("click", loadFromForm);
 
 $clear.addEventListener("click", () => {
   $tx.value = "";
@@ -119,7 +128,7 @@ $hideInfo.addEventListener("click", (e) => {
 document.addEventListener("keypress", (e) => {
   // @ts-ignore
   if (e.target && e.target.id === "tx" && e.key === "Enter") {
-    load();
+    loadFromForm();
     return;
   }
 });
