@@ -56,7 +56,7 @@ async function createMedia(
     const formatLink = document.createElement("a");
 
     const runText = "run";
-    const formatText = "format code";
+    const formatText = "formatted";
 
     toggleLink.href = "#";
     toggleLink.innerText = runText;
@@ -77,7 +77,7 @@ async function createMedia(
       e.preventDefault();
       box.removeChild(isCode ? pre : iframe);
       box.appendChild(isCode ? iframe : pre);
-      toggleLink.innerText = isCode ? "show code" : runText;
+      toggleLink.innerText = isCode ? "code" : runText;
       isCode = !isCode;
     });
 
@@ -95,7 +95,7 @@ async function createMedia(
         pre.innerHTML = Prism.highlight(nice, Prism.languages.html, "html");
       }
 
-      formatLink.innerText = isFormatted ? formatText : "show original";
+      formatLink.innerText = isFormatted ? formatText : "raw code";
       isFormatted = !isFormatted;
     });
 
