@@ -92,10 +92,13 @@ async function createMedia(
         // @ts-ignore
         const jsParser = (await import("prettier/esm/parser-babel"))
           .default as Parser;
+        // @ts-ignore
+        const cssParser = (await import("prettier/esm/parser-postcss"))
+          .default as Parser;
 
         const nice = prettier.format(text, {
           parser: "html",
-          plugins: [htmlParser, jsParser],
+          plugins: [htmlParser, jsParser, cssParser],
         });
 
         pre.innerHTML = Prism.highlight(nice, Prism.languages.html, "html");
