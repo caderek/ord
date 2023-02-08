@@ -9,7 +9,7 @@
   "short_name": "biv",
   "start_url": "https://biv.netlify.app",
   "theme_color": "#ffffff",
-  "categories": [],
+  "categories": ["entertainment"],
   "screenshots": [],
   "icons": [
     {
@@ -450,7 +450,8 @@
     },
     {
       "src": "ios/192.png",
-      "sizes": "192x192"
+      "sizes": "192x192",
+      "purpose": "any"
     },
     {
       "src": "ios/256.png",
@@ -458,7 +459,8 @@
     },
     {
       "src": "ios/512.png",
-      "sizes": "512x512"
+      "sizes": "512x512",
+      "purpose": "maskable"
     },
     {
       "src": "ios/1024.png",
