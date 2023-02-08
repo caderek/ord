@@ -1,12 +1,12 @@
 async function fetchFromMempool(txId: string) {
   try {
-    const res = await fetch(`https://mempool.space/api/tx/${txId}/hex`);
+    const res = await fetch(`https://mempool.space/api/tx/${txId}/raw`);
 
     if (!res.ok) {
       return null;
     }
 
-    return res.text();
+    return res.arrayBuffer();
   } catch (e) {
     return null;
   }

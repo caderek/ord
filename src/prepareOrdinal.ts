@@ -16,7 +16,9 @@ async function prepareOrdinal({ txId, txHex }: TxInput) {
     return { el: p, mime: null, url: null, ext: null, size: null };
   }
 
+  console.time("Time");
   const ord = readOrdinal(tx);
+  console.timeEnd("Time");
 
   if (ord === null) {
     const p = document.createElement("p");
