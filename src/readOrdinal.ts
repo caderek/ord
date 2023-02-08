@@ -53,8 +53,6 @@ function readOrdinal(rawTX: ArrayBuffer | string) {
 
   const startIndex = findStartIndex(bytes, ORDINAL_SIGNATURE);
 
-  console.log({ startIndex });
-
   if (startIndex === -1) {
     return null;
   }

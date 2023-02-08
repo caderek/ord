@@ -24,10 +24,6 @@ let $actions: null | HTMLLIElement[] = null;
 let $openLink: null | HTMLAnchorElement = null;
 let oldUrl: null | string = null;
 
-if (location.hash) {
-  console.log(location.hash);
-}
-
 const load = (getValue: () => string) => async () => {
   $details!.innerText = "";
 

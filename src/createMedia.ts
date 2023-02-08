@@ -26,8 +26,6 @@ async function createMedia(
   const url = URL.createObjectURL(blob);
   const size = prettyBytes(blob.size);
 
-  console.log(mimeString);
-
   if (mimeString.includes("image")) {
     const img = new Image();
     img.src = url;
@@ -85,7 +83,6 @@ async function createMedia(
       } else {
         // @ts-ignore
         const prettier = (await import("prettier/esm/standalone")).default;
-        console.log({ prettier });
         // @ts-ignore
         const htmlParser = (await import("prettier/esm/parser-html"))
           .default as Parser;
