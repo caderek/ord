@@ -4,19 +4,20 @@ import "./prism.css";
 import { createDownloadLink, createStandaloneLink } from "./createLinks.js";
 import extractTxId from "./extractTxId.js";
 import prepareOrdinal from "./prepareOrdinal.js";
-
-const $preview = document.getElementById("preview") as HTMLDivElement;
-const $tx = document.getElementById("tx") as HTMLTextAreaElement;
-const $load = document.getElementById("load") as HTMLButtonElement;
-const $clear = document.getElementById("clear") as HTMLButtonElement;
-const $details = document.getElementById("details") as HTMLParagraphElement;
-const $download = document.getElementById("download") as HTMLAnchorElement;
-const $open = document.getElementById("open") as HTMLAnchorElement;
-const $info = document.getElementById("info") as HTMLDivElement;
-const $showInfo = document.getElementById("show-info") as HTMLAnchorElement;
-const $hideInfo = document.getElementById("hide-info") as HTMLAnchorElement;
-const $loading = document.getElementById("loading") as HTMLDivElement;
-const $links = document.getElementById("links") as HTMLUListElement;
+import {
+  $clear,
+  $details,
+  $download,
+  $hideInfo,
+  $info,
+  $links,
+  $load,
+  $loading,
+  $open,
+  $preview,
+  $showInfo,
+  $tx,
+} from "./dom.js";
 
 let $content = document.getElementById("monkey");
 let $downloadLink: null | HTMLAnchorElement = null;

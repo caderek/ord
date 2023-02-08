@@ -1,6 +1,7 @@
 import prettyBytes from "pretty-bytes";
 import Prism from "prismjs";
 import type { Parser } from "prettier";
+import { $loading } from "./dom.js";
 
 Prism.manual = true;
 
@@ -69,16 +70,19 @@ async function createMedia(
 
     toggleLink.addEventListener("click", (e) => {
       e.preventDefault();
+      $loading.classList.toggle("hidden");
       box.removeChild(isCode ? pre : iframe);
       box.appendChild(isCode ? iframe : pre);
       toggleLink.innerText = isCode ? "code" : runText;
       isCode = !isCode;
+      $loading.classList.toggle("hidden");
     });
 
     let nice: string | null = null;
 
     formatLink.addEventListener("click", async (e) => {
       e.preventDefault();
+      $loading.classList.toggle("hidden");
 
       if (isFormatted) {
         pre.innerHTML = Prism.highlight(text, Prism.languages.html, "html");
@@ -105,8 +109,9 @@ async function createMedia(
         pre.innerHTML = Prism.highlight(nice, Prism.languages.html, "html");
       }
 
-      formatLink.innerText = isFormatted ? formatText : "raw code";
+      formatLink.innerText = isFormatted ? formatText : "raw";
       isFormatted = !isFormatted;
+      $loading.classList.toggle("hidden");
     });
 
     return { el: box, mime, url, ext, size, actions: [format, toggle] };
