@@ -1,11 +1,7 @@
 import prettyBytes from "pretty-bytes";
-// @ts-ignore
-import prettier from "prettier/esm/standalone";
-// @ts-ignore
-import htmlParser from "prettier/esm/parser-html";
-// @ts-ignore
-import jsParser from "prettier/esm/parser-babel";
 import Prism from "prismjs";
+import type { Parser } from "prettier";
+
 Prism.manual = true;
 
 function formatMime(mimeStr: string) {
@@ -87,6 +83,16 @@ async function createMedia(
       if (isFormatted) {
         pre.innerHTML = Prism.highlight(text, Prism.languages.html, "html");
       } else {
+        // @ts-ignore
+        const prettier = (await import("prettier/esm/standalone")).default;
+        console.log({ prettier });
+        // @ts-ignore
+        const htmlParser = (await import("prettier/esm/parser-html"))
+          .default as Parser;
+        // @ts-ignore
+        const jsParser = (await import("prettier/esm/parser-babel"))
+          .default as Parser;
+
         const nice = prettier.format(text, {
           parser: "html",
           plugins: [htmlParser, jsParser],
