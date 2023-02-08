@@ -1,0 +1,22 @@
+{
+  "background_color": "#ffffff",
+  "description": "Decode any Bitcoin inscriptions/ordinals by providing transaction hex data, transaction ID, or transacion/ordinal link",
+  "dir": "ltr",
+  "display": "standalone",
+  "name": "BTC Inscription Viewer",
+  "orientation": "any",
+  "scope": "/",
+  "short_name": "biv",
+  "start_url": "/",
+  "theme_color": "#ffffff",
+  "categories": [],
+  "screenshots": [],
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "shortcuts": [],
+  "lang": "en"
+}
