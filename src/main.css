@@ -175,8 +175,8 @@ iframe {
   background-color: white;
 }
 
-article img {
-  min-width: 150px;
+article img.svg {
+  min-height: calc(100vh - 12rem);
 }
 
 main > header {
@@ -313,6 +313,10 @@ body > footer a:active {
     display: grid;
     place-content: center;
     height: calc(60vh - 8rem);
+  }
+
+  article img.svg {
+    min-height: calc(60vh - 12rem);
   }
 
   main > article > img,

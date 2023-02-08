@@ -53,6 +53,11 @@ async function createMedia(
   if (mimeString.includes("image")) {
     const img = new Image();
     img.src = url;
+
+    if (mimeString.includes("svg")) {
+      img.classList.add("svg");
+    }
+
     return { el: img, mime, url, ext, size };
   }
 
