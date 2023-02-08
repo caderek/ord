@@ -280,10 +280,6 @@ body > footer a:active {
   display: none;
 }
 
-.viewport {
-  /* padding: 0; */
-}
-
 @media (max-width: 960px) {
   body {
     grid-template-areas:

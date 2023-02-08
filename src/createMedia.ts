@@ -50,7 +50,7 @@ async function createMedia(
     const formatLink = document.createElement("a");
 
     const runText = "run";
-    const formatText = "formatted";
+    const formatText = "format";
 
     toggleLink.href = "#";
     toggleLink.innerText = runText;
