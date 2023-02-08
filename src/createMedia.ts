@@ -9,6 +9,29 @@ function formatMime(mimeStr: string) {
   return mimeStr.split(";")[0].split("/").join(" | ").toUpperCase();
 }
 
+async function formatCode(code: string) {
+  // @ts-ignore
+  const prettier = (await import("prettier/esm/standalone")).default;
+  // @ts-ignore
+  const htmlParser = (await import("prettier/esm/parser-html"))
+    .default as Parser;
+  // @ts-ignore
+  const jsParser = (await import("prettier/esm/parser-babel"))
+    .default as Parser;
+  // @ts-ignore
+  const cssParser = (await import("prettier/esm/parser-postcss"))
+    .default as Parser;
+
+  try {
+    return prettier.format(code, {
+      parser: "html",
+      plugins: [htmlParser, jsParser, cssParser],
+    }) as string;
+  } catch (e) {
+    return code;
+  }
+}
+
 type Media = {
   el: HTMLElement;
   mime: string | null;
@@ -21,7 +44,7 @@ type Media = {
 async function createMedia(
   blob: Blob,
   mimeString: string,
-  ext: string
+  ext: string,
 ): Promise<Media> {
   const mime = formatMime(mimeString);
   const url = URL.createObjectURL(blob);
@@ -89,23 +112,7 @@ async function createMedia(
       } else if (nice !== null) {
         pre.innerHTML = Prism.highlight(nice, Prism.languages.html, "html");
       } else {
-        // @ts-ignore
-        const prettier = (await import("prettier/esm/standalone")).default;
-        // @ts-ignore
-        const htmlParser = (await import("prettier/esm/parser-html"))
-          .default as Parser;
-        // @ts-ignore
-        const jsParser = (await import("prettier/esm/parser-babel"))
-          .default as Parser;
-        // @ts-ignore
-        const cssParser = (await import("prettier/esm/parser-postcss"))
-          .default as Parser;
-
-        nice = prettier.format(text, {
-          parser: "html",
-          plugins: [htmlParser, jsParser, cssParser],
-        }) as string;
-
+        nice = await formatCode(text);
         pre.innerHTML = Prism.highlight(nice, Prism.languages.html, "html");
       }
 
