@@ -75,11 +75,15 @@ async function createMedia(
       isCode = !isCode;
     });
 
+    let nice: string | null = null;
+
     formatLink.addEventListener("click", async (e) => {
       e.preventDefault();
 
       if (isFormatted) {
         pre.innerHTML = Prism.highlight(text, Prism.languages.html, "html");
+      } else if (nice !== null) {
+        pre.innerHTML = Prism.highlight(nice, Prism.languages.html, "html");
       } else {
         // @ts-ignore
         const prettier = (await import("prettier/esm/standalone")).default;
@@ -93,10 +97,10 @@ async function createMedia(
         const cssParser = (await import("prettier/esm/parser-postcss"))
           .default as Parser;
 
-        const nice = prettier.format(text, {
+        nice = prettier.format(text, {
           parser: "html",
           plugins: [htmlParser, jsParser, cssParser],
-        });
+        }) as string;
 
         pre.innerHTML = Prism.highlight(nice, Prism.languages.html, "html");
       }
