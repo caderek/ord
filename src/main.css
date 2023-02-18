@@ -170,6 +170,11 @@ pre {
   font-size: 0.875rem;
 }
 
+model-viewer {
+  height: calc(100vh - 10rem);
+  width: calc(66vw - 2rem);
+}
+
 iframe {
   height: calc(100vh - 10rem);
   width: calc(66vw - 2rem);
@@ -339,7 +344,8 @@ body > footer a:active {
   }
 
   pre,
-  iframe {
+  iframe,
+  model-viewer {
     overflow: auto;
     height: calc(60vh - 10rem);
     width: calc(100vw);

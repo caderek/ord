@@ -1,35 +1,19 @@
 import prettyBytes from "pretty-bytes";
 import Prism from "prismjs";
-import type { Parser } from "prettier";
-import { $loading } from "./dom.js";
+import AudioPreview from "./previews/AudioPreview.js";
+import DefaultPreview from "./previews/DefaultPreview.js";
+import HTMLPreview from "./previews/HTMLPreview.js";
+import ImagePreview from "./previews/ImagePreview.js";
+import JSPreview from "./previews/JSPreview.js";
+import ModelPreview from "./previews/ModelPreview.js";
+import PDFPreview from "./previews/PDFPreview.js";
+import TextPreview from "./previews/TextPreview.js";
+import VideoPreview from "./previews/VideoPreview.js";
 
 Prism.manual = true;
 
 function formatMime(mimeStr: string) {
   return mimeStr.split(";")[0].split("/").join(" | ").toUpperCase();
-}
-
-async function formatCode(code: string) {
-  // @ts-ignore
-  const prettier = (await import("prettier/esm/standalone")).default;
-  // @ts-ignore
-  const htmlParser = (await import("prettier/esm/parser-html"))
-    .default as Parser;
-  // @ts-ignore
-  const jsParser = (await import("prettier/esm/parser-babel"))
-    .default as Parser;
-  // @ts-ignore
-  const cssParser = (await import("prettier/esm/parser-postcss"))
-    .default as Parser;
-
-  try {
-    return prettier.format(code, {
-      parser: "html",
-      plugins: [htmlParser, jsParser, cssParser],
-    }) as string;
-  } catch (e) {
-    return code;
-  }
 }
 
 type Media = {
@@ -43,115 +27,48 @@ type Media = {
 
 async function createMedia(
   blob: Blob,
-  mimeString: string,
+  rawMime: string,
   ext: string,
 ): Promise<Media> {
-  const mime = formatMime(mimeString);
+  const mime = formatMime(rawMime);
   const url = URL.createObjectURL(blob);
   const size = prettyBytes(blob.size);
 
-  if (mimeString.includes("image")) {
-    const img = new Image();
-    img.src = url;
+  const fileData = { url, blob, mime, rawMime, ext, size };
 
-    if (mimeString.includes("svg")) {
-      img.classList.add("svg");
-    }
-
-    return { el: img, mime, url, ext, size };
+  if (rawMime.includes("image")) {
+    return ImagePreview(fileData);
   }
 
-  if (mimeString.startsWith("text/html")) {
-    const iframe = document.createElement("iframe");
-    iframe.src = url;
-
-    const text = await blob.text();
-
-    const box = document.createElement("div");
-    const pre = document.createElement("pre");
-
-    pre.innerHTML = Prism.highlight(text, Prism.languages.html, "html");
-
-    const toggle = document.createElement("li");
-    const toggleLink = document.createElement("a");
-
-    const format = document.createElement("li");
-    const formatLink = document.createElement("a");
-
-    const runText = "run";
-    const formatText = "format";
-
-    toggleLink.href = "#";
-    toggleLink.innerText = runText;
-    formatLink.href = "#";
-    formatLink.innerText = formatText;
-
-    toggle.appendChild(toggleLink);
-    format.appendChild(formatLink);
-
-    box.classList.add("viewport");
-
-    box.appendChild(pre);
-
-    let isCode = true;
-    let isFormatted = false;
-
-    toggleLink.addEventListener("click", (e) => {
-      e.preventDefault();
-      $loading.classList.toggle("hidden");
-      box.removeChild(isCode ? pre : iframe);
-      box.appendChild(isCode ? iframe : pre);
-      toggleLink.innerText = isCode ? "code" : runText;
-      isCode = !isCode;
-      $loading.classList.toggle("hidden");
-    });
-
-    let nice: string | null = null;
-
-    formatLink.addEventListener("click", async (e) => {
-      e.preventDefault();
-      $loading.classList.toggle("hidden");
-
-      if (isFormatted) {
-        pre.innerHTML = Prism.highlight(text, Prism.languages.html, "html");
-      } else if (nice !== null) {
-        pre.innerHTML = Prism.highlight(nice, Prism.languages.html, "html");
-      } else {
-        nice = await formatCode(text);
-        pre.innerHTML = Prism.highlight(nice, Prism.languages.html, "html");
-      }
-
-      formatLink.innerText = isFormatted ? formatText : "raw";
-      isFormatted = !isFormatted;
-      $loading.classList.toggle("hidden");
-    });
-
-    return { el: box, mime, url, ext, size, actions: [format, toggle] };
+  if (rawMime.startsWith("text/html")) {
+    return HTMLPreview(fileData);
   }
 
-  if (mimeString.includes("text") || mimeString.includes("json")) {
-    const text = await blob.text();
-    const pre = document.createElement("pre");
-    pre.innerText = text;
-    return { el: pre, mime, url, ext, size };
+  if (rawMime.includes("text") || rawMime.includes("json")) {
+    return TextPreview(fileData);
   }
 
-  if (mimeString.includes("audio")) {
-    const audio = new Audio(url);
-    audio.controls = true;
-    return { el: audio, mime, url, ext, size };
+  if (rawMime.includes("audio")) {
+    return AudioPreview(fileData);
   }
 
-  if (mimeString.includes("video")) {
-    const video = document.createElement("video");
-    video.src = url;
-    video.controls = true;
-    return { el: video, mime, url, ext, size };
+  if (rawMime.includes("video")) {
+    return VideoPreview(fileData);
   }
 
-  const p = document.createElement("p");
-  p.innerText = "Format not supported";
-  return { el: p, mime, url, ext, size };
+  if (rawMime.startsWith("application/pdf")) {
+    return PDFPreview(fileData);
+  }
+
+  if (rawMime.startsWith("application/javascript")) {
+    return JSPreview(fileData);
+  }
+
+  if (["glb", "gltf"].includes(ext)) {
+    return ModelPreview(fileData);
+  }
+
+  return DefaultPreview(fileData);
 }
 
 export default createMedia;
