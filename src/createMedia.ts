@@ -44,6 +44,13 @@ async function createMedia(
     return HTMLPreview(fileData);
   }
 
+  if (
+    rawMime.startsWith("application/javascript") ||
+    rawMime.startsWith("text/javascript")
+  ) {
+    return JSPreview(fileData);
+  }
+
   if (rawMime.includes("text") || rawMime.includes("json")) {
     return TextPreview(fileData);
   }
@@ -58,10 +65,6 @@ async function createMedia(
 
   if (rawMime.startsWith("application/pdf")) {
     return PDFPreview(fileData);
-  }
-
-  if (rawMime.startsWith("application/javascript")) {
-    return JSPreview(fileData);
   }
 
   if (["glb", "gltf"].includes(ext)) {

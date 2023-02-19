@@ -17,7 +17,7 @@
 }
 
 textarea {
-  width: 30vw;
+  width: 31vw;
   height: 70vh;
   padding: 1rem;
   font-size: 1rem;
@@ -109,7 +109,7 @@ body {
 body > header {
   grid-area: a;
   background-color: var(--color-bg-dim2);
-  width: 34vw;
+  width: 35vw;
   height: 4rem;
   display: grid;
   place-content: center start;
@@ -119,7 +119,7 @@ body > header {
 body .inputs {
   grid-area: b;
   background-color: var(--color-bg-dim);
-  width: 34vw;
+  width: 35vw;
   height: calc(100vh - 8rem);
   display: grid;
   place-content: center;
@@ -132,14 +132,14 @@ body .inputs p {
 
 main {
   grid-area: c;
-  width: 66vw;
+  width: 65vw;
   position: relative;
 }
 
 body > footer {
   grid-area: d;
   background-color: var(--color-bg-dim2);
-  width: 34vw;
+  width: 35vw;
   height: 4rem;
   display: grid;
   place-content: center;
@@ -157,13 +157,13 @@ main > article > video,
 main > article > audio,
 main > article > p {
   max-height: calc(100vh - 10rem);
-  max-width: calc(66vw - 2rem);
+  max-width: calc(65vw - 2rem);
 }
 
 pre {
   overflow: auto;
   height: calc(100vh - 10rem);
-  width: calc(66vw - 2rem);
+  width: calc(65vw - 2rem);
   background-color: var(--color-bg-pre);
   color: var(--color-text-pre);
   padding: 1rem;
@@ -172,12 +172,12 @@ pre {
 
 model-viewer {
   height: calc(100vh - 10rem);
-  width: calc(66vw - 2rem);
+  width: calc(65vw - 2rem);
 }
 
 iframe {
   height: calc(100vh - 10rem);
-  width: calc(66vw - 2rem);
+  width: calc(65vw - 2rem);
   background-color: white;
 }
 
