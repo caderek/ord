@@ -36,12 +36,12 @@ async function createMedia(
 
   const fileData = { url, blob, mime, rawMime, ext, size };
 
-  if (rawMime.includes("image")) {
-    return ImagePreview(fileData);
+  if (rawMime.startsWith("text/html") || rawMime.includes("svg")) {
+    return HTMLPreview(fileData);
   }
 
-  if (rawMime.startsWith("text/html")) {
-    return HTMLPreview(fileData);
+  if (rawMime.includes("image")) {
+    return ImagePreview(fileData);
   }
 
   if (
